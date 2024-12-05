@@ -107,12 +107,12 @@ func Star2() {
 	for _, v := range orderings {
 		order := GetOrderForOrdering(v, rules)
 		if !CheckCorrectOrder(v, order) {
-      new_v := GetOrderingFromOrder(v, order);
+			new_v := GetOrderingFromOrder(v, order)
 			sum_middle += new_v[len(new_v)/2]
 		}
 	}
-  
-  fmt.Println(sum_middle)
+
+	fmt.Println(sum_middle)
 }
 
 func main() {

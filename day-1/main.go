@@ -9,82 +9,78 @@ import (
 	"strings"
 )
 
+func GetInput() ([]int, []int) {
+	file, err := os.Open("input")
+	if err != nil {
+		panic(err)
+	}
 
-func GetInput() ([]int, []int){
-  file, err := os.Open("input");
-  if err != nil {
-    panic(err);
-  }
-  
-  scanner := bufio.NewScanner(file);
-  var list1 []int;
-  var list2 []int;
-  
+	scanner := bufio.NewScanner(file)
+	var list1 []int
+	var list2 []int
 
-  for scanner.Scan() {
-    line_input := strings.Split(scanner.Text(), "   ");
-    temp, _ := strconv.Atoi(line_input[0])
-    list1 = append(list1, temp);
-    temp, _ = strconv.Atoi(line_input[1])
-    list2 = append(list2, temp);
-  }
+	for scanner.Scan() {
+		line_input := strings.Split(scanner.Text(), "   ")
+		temp, _ := strconv.Atoi(line_input[0])
+		list1 = append(list1, temp)
+		temp, _ = strconv.Atoi(line_input[1])
+		list2 = append(list2, temp)
+	}
 
-  return list1, list2;
+	return list1, list2
 }
 
-func Abs(a, b int) int{
-  if a > b {
-    return a - b;
-  }
-  return b - a;
+func Abs(a, b int) int {
+	if a > b {
+		return a - b
+	}
+	return b - a
 }
 
-func Star1(){
-  list1, list2 := GetInput();
-  
-  sort.Ints(list1);
-  sort.Ints(list2);
-  
-  total_distance := 0;
+func Star1() {
+	list1, list2 := GetInput()
 
-  for i, v := range list1{
-    total_distance += Abs(v, list2[i])
-  } 
+	sort.Ints(list1)
+	sort.Ints(list2)
 
-  fmt.Println(total_distance);
+	total_distance := 0
+
+	for i, v := range list1 {
+		total_distance += Abs(v, list2[i])
+	}
+
+	fmt.Println(total_distance)
 }
 
+func GenerateFrequencyMap(list []int) map[int]int {
+	freq := make(map[int]int)
 
-func GenerateFrequencyMap(list []int) map[int]int{
-  freq := make(map[int]int);
+	for _, v := range list {
+		freq[v]++
+	}
 
-  for _,v := range list{
-    freq[v]++;
-  }
-
-  return freq;
+	return freq
 }
 
-func Star2(){
-  list1, list2 := GetInput();
-  
-  freqs := GenerateFrequencyMap(list2);
-  done := make(map[int]bool);
-  similarity_score := 0;
+func Star2() {
+	list1, list2 := GetInput()
 
-  for _,v := range list1{
-    if done[v]{
-      continue;
-    }
-    similarity_score += v*freqs[v];
-    done[v] = true;
-  }
+	freqs := GenerateFrequencyMap(list2)
+	done := make(map[int]bool)
+	similarity_score := 0
 
-  fmt.Println(similarity_score);
+	for _, v := range list1 {
+		if done[v] {
+			continue
+		}
+		similarity_score += v * freqs[v]
+		done[v] = true
+	}
+
+	fmt.Println(similarity_score)
 }
 
-func main(){
-  Star1();
-  Star2();
+func main() {
+	Star1()
+	Star2()
 }
-
